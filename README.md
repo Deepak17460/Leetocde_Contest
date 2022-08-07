@@ -1,2 +1,2 @@
 # Leetocde_Contest
-Every_Sunday_Leetcode_Contest would be uploaded
+Every_Sunday_Leetcode_Contest_Solution would be uploaded
