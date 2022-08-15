@@ -1,0 +1,57 @@
+
+
+class Solution {
+    
+    string s;
+    long long dp[13][1 << 12][2];
+    long long dfs(int ind, int mask, int greater) {
+        if(ind == s.size()) return 1;
+        if(dp[ind][mask][greater] != -1) return dp[ind][mask][greater];
+        
+        long long ans = 0;
+        for(char c = '0'; c <= '9'; ++c) {
+            if((ind == 0 and c == '0') or (mask >> (c - '0') & 1)) continue;
+
+            if(c < s[ind]) {                                    
+                ans += dfs(ind + 1, mask | (1 << (c - '0')), 0);
+            
+            } else if(c == s[ind]) {
+                ans += dfs(ind + 1, mask | (1 << (c - '0')), greater); 
+                
+                
+            } else if(c > s[ind] and greater == 0) {                   
+                ans += dfs(ind + 1, mask | (1 << (c - '0')), greater);
+            }
+        }
+        
+        return dp[ind][mask][greater] = ans;
+    }
+public:
+    int countSpecialNumbers(int n) {
+          long long ans = 0, a = n;
+        
+        int digits = 0;
+        while(a > 0) {
+            digits++;
+            a /= 10;
+        }
+        
+           for(int i = 1; i < digits; ++i) {
+            long long cur = 1;
+            for(int j = 1, l = 9; j <= i; ++j) {
+                if(j <= 2) cur *= l;
+                else cur *= (--l);
+            }
+            ans += cur;
+        }
+        
+        memset(dp, -1, sizeof dp);
+        s = to_string(n);
+
+        ans += dfs(0, 0, 1);
+        
+        return ans;
+    
+    }
+        
+};
